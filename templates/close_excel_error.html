@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../static/styles/scrollbar.css">
+		<link rel="stylesheet" href="../static/styles/navbar.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css">
+		<link rel="icon" type="image/x-icon" href="../static/images/favicon.png">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+		<title>Error</title>
+</head>
+<body>
+  <div id="app">
+    <div class="header">
+      <div class="logo-div">
+        <a href="/">
+          <img src="../static/images/logo.png" alt="">
+        </a>
+      </div>
+      <div class="tabs-div">
+        <div class="dropdown">
+          <a class="tab" href="/quarterly-capacity">Quarterly Capacity</a>
+          <div class="dropdown-content">
+            <a href="/quarterly-demand">Quarterly Demand</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a class="tab" href="/bluesky-capacity">BlueSky Capacity</a>
+          <div class="dropdown-content">
+            <a href="/bluesky-demand">BlueSky Demand</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a class="tab" style="cursor: context-menu;" >Configurations</a>
+          <div class="dropdown-content">
+            <a href="/product-specifications">Product Specifications</a>
+            <a href="/operation-specifications">Operation Specifications</a>
+            <a href="/production-flow">Production Flow</a>
+            <a href="/changelog">Changelog</a>
+          </div>
+        </div>
+        <!-- <div class="dropdown">
+          <a class="tab" href="/upload">Upload</a>
+        </div> -->
+      </div>
+    </div>
+    <div class="main-body">
+      <div class="info">Trouble rendering the data table. Please close the excel file(s) & <a href="{{route}}">TRY AGAIN</a></div>
+    </div>
+  </div>
+  </div>
+</body>
+
+<style>
+body {
+  font-family: Roboto, Arial;
+  margin: 0;
+}
+
+.main-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:750px;
+}
+
+.info {
+  border: 1px solid;
+  margin: 10px 0px;
+  padding: 20px 15px 20px 55px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+}
+
+.info {
+  color: #00529B;
+  background-color: #BDE5F8;
+  background-image: url('https://i.imgur.com/ilgqWuX.png');
+}
+</style>
+</html>

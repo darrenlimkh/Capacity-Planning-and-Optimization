@@ -1,0 +1,121 @@
+{% extends "quarterly_capacity.html" %}
+
+{% block datatable %}
+  <table id="capacity-table" class="stripe hover" style="width:98%">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>PBG</th>
+        <th>Site</th>
+        <th>Type</th>
+        <th>Operation</th>
+        <th>SLH</th>
+        <th>SLH Unit</th>
+        <th>Number Ops</th>
+        <th>Number Operator/Ops</th>
+        <th>Takt Time</th>
+        <th>Weekly Capacity</th>
+        <th>Quarterly Capacity</th>
+        <th>Quarterly Capacity (90%)</th>
+        <th>Quarterly Demand</th>
+        <th>P2M</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+{% endblock %}
+
+{% block datatablescripts %}
+  <script>
+    var editor;
+    $(document).ready(function () {
+      var table = $('#capacity-table').DataTable({
+        info: false,
+        paging: false,
+        stateSave: true,
+        ajax: '/api/data',
+        columns: [
+          {data: 'id', searchable: false},
+          {data: 'pbg', orderable: true, searchable: true},
+          {data: 'site', orderable: false},
+          {data: 'type', orderable: true, searchable: true},
+          {data: 'operation', orderable: true, searchable: true},
+          {data: 'slh', orderable: false, searchable: false},
+          {data: 'slh_unit', orderable: false, searchable: false},
+          {data: 'num_operation', orderable: false, searchable: false},
+          {data: 'num_operator_operation', orderable: false, searchable: false},
+          {data: 'takt_time', seachable: false},
+          {data: 'weekly_capacity', seachable: false},
+          {data: 'quarterly_capacity', seachable: false},
+          {data: 'quarterly_capacity_frac', seachable: false},
+          {data: 'quarterly_demand', seachable: false},
+          {data: 'p2m', seachable: false, render: function(data, type) {
+              var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+              if (type === 'display') {
+                  let color = '';
+                  let regExp = /\(|\)|\[|\]/g;
+                  if (regExp.test(String(data))) {
+                    color = 'lightblue';
+                  } else if (parseFloat(data) >= 0.85 && parseFloat(data) <= 0.95) {
+                    color = '#FDE541';
+                  } else if (parseFloat(data) >= 0.95) {
+                    color = 'lightpink';
+                  }
+                  return '<span style="background-color:' + color + '">' + data + '</span>';
+              }
+              return data;
+          }},
+        ],
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block datatablestyles %}
+<style>
+body {
+  font-family: Roboto, Arial;
+  margin: 0;
+}   
+
+table {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+table td {
+  text-align: center;
+}
+
+table th {
+  background-color: #347da2;
+  color: white;
+  text-align: center;
+  border: none;
+}
+
+table.dataTable thead th, table.dataTable thead td, table.dataTable tfoot th, table.dataTable tfoot td {
+  text-align: center !important;
+}
+
+.dataTables_filter {
+  margin-right: 15px;
+  margin-bottom: 10px;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+  width: 186px;
+}
+
+input[type=search]:focus {
+  border: 1.2px solid #347da2;
+  outline: none;
+}
+
+input[type=text]:focus {
+  border: 1.2px solid #347da2;
+  outline: none;
+}
+</style>
+{% endblock %}

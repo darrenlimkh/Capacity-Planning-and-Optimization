@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../static/styles/scrollbar.css">
+		<link rel="stylesheet" href="../static/styles/navbar.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css">
+		<link rel="icon" type="image/x-icon" href="../static/images/favicon.png">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+		<script src=https://unpkg.com/vue@next></script>
+		<title>Operation Specifications</title>
+  </head>
+  <body>
+    <div id="loadOverlay" style="background-color:white; position:absolute; top:0px; left:0px; width:100%; height:100%; z-index:2000;"></div>
+    <div id="app">
+      <div class="header">
+        <div class="logo-div">
+          <a href="/">
+            <img src="../static/images/logo.png" alt="">
+          </a>
+        </div>
+        <div class="tabs-div">
+          <div class="dropdown">
+            <a class="tab" href="/quarterly-capacity">Quarterly Capacity</a>
+            <div class="dropdown-content">
+              <a href="/quarterly-demand">Quarterly Demand</a>
+              <a href="/mpp">MPP</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a class="tab" href="/bluesky-capacity">BlueSky Capacity</a>
+            <div class="dropdown-content">
+              <a href="/bluesky-demand">BlueSky Demand</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a class="tab" style="cursor: context-menu;" >Configurations</a>
+            <div class="dropdown-content">
+              <a href="/product-specifications">Product Specifications</a>
+              <a href="/operation-specifications">Operation Specifications</a>
+              <a href="/production-flow">Production Flow</a>
+              <a href="/changelog">Changelog</a>
+            </div>
+          </div>
+          <!-- <div class="dropdown">
+            <a class="tab" href="/upload">Upload</a>
+          </div> -->
+        </div>
+      </div>
+			<div class="excel-template">
+				<iframe width="1600" height="800" frameborder="0" scrolling="no" src="https://amatind-my.sharepoint.com/personal/kangheng_lim_amat_com/_layouts/15/Doc.aspx?sourcedoc={91037b5d-64d9-46a3-942b-0e1a52816bd5}&action=embedview&Item=operation&wdInConfigurator=True&wdInConfigurator=True&edesNext=false&ejss=false"></iframe>
+			</div>
+		</div>
+	</body>
+
+<style>
+body {
+	font-family: Roboto, Arial;
+	margin: 0;
+}
+
+p {
+	font-size: 20px;
+	margin-bottom: 0;
+}
+
+.introduction {
+	display: flex;
+	justify-content: center;
+}
+
+.excel-template {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+
+#loadOverlay{display: none;}
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+</style>
+</html>

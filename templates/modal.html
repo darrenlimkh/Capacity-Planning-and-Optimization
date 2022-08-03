@@ -1,0 +1,89 @@
+{% extends "quarterly_capacity.html" %}
+
+{% block modal %}
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Optimize Variables</h5>
+			</div>
+			<form action="#" method="POST" enctype="multipart/form-data">
+					<div class="modal-body">
+									<div class="form-group">
+											<label for="p2m-threshold" class="col-form-label" style="font-size:18px;">P2M Threshold Value:</label>
+											<input type="text" class="form-control" id="p2m-form" onkeyup="success()" id="file-name" name="threshold" placeholder="Input value between 0 and 1" value="">
+									</div>
+									<br>
+									<div class="form-inline" >
+											<label for="changing-variables" class="col-form-label" style="display:block; font-size:18px;">Changing Variables:</label>
+											<div class="form-inline" style="display:flex; align-items:center; justify-content: space-between;">
+													<div class="form-check mb-2 mr-sm-2" id="inlineFormInputName2">
+															<input type="checkbox" name="checkbox" value="SLH" checked>
+															<label>Standard Labour Hours</label>
+													</div>
+													<div>
+															<input type="text" class="form-control mb-2 mr-sm-2" name="slh_min" style="width:100px; margin-left:20px; display:inline;" placeholder="Min: 0">
+															<input type="text" class="form-control mb-2 mr-sm-2" name="slh_max" style="width:100px; margin-left:10px; display:inline;" placeholder="Max: 100">
+													</div>
+											</div>
+											<br>
+											<div class="form-inline" style="display:flex; align-items:center; justify-content: space-between;">
+													<div class="form-check mb-2 mr-sm-2" id="inlineFormInputName2" >
+															<input type="checkbox" name="checkbox" value="# Operation">
+															<label>Num Operations</label>
+													</div>
+													<div>
+															<input type="text" class="form-control mb-2 mr-sm-2" name="num_op_min" style="width:100px; margin-left:20px; display:inline;" placeholder="Min: 0">
+															<input type="text" class="form-control mb-2 mr-sm-2" name="num_op_max" style="width:100px; margin-left:10px; display:inline;" placeholder="Max: 100">
+													</div>
+											</div>
+											<br>
+											<div class="form-inline" style="display:flex; align-items:center; justify-content: space-between;">
+													<div class="form-check mb-2 mr-sm-2" id="inlineFormInputName2" >
+															<input type="checkbox" name="checkbox" value="# Operator/Operation">
+															<label>Num Operator/Operation</label>
+													</div>
+													<div>
+															<input type="text" class="form-control mb-2 mr-sm-2" name="num_op_op_min" style="width:100px; margin-left:20px; display:inline;" placeholder="Min: 0">
+															<input type="text" class="form-control mb-2 mr-sm-2" name="num_op_op_max" style="width:100px; margin-left:10px; display:inline;" placeholder="Max: 100">
+													</div>
+											</div>
+									</div>
+					</div>
+					<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" onclick="window.location.href='/quarterly-capacity'">Close</button>
+							<input type="submit" class="btn btn-secondary" name="modal-optimize-button" id="modal-optimize-button" value="Optimize" style="background-color:#347da2;" disabled>
+					</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block modalscript %}
+<script>
+$(document).ready(function() {
+    $("#exampleModalCenter").modal("show")
+})
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+function success() {
+    if (parseFloat(document.getElementById("p2m-form").value) > 0 && parseFloat(document.getElementById("p2m-form").value) < 1) {
+        document.getElementById('modal-optimize-button').disabled = false;
+    } else {
+        document.getElementById('modal-optimize-button').disabled = true; 
+    }
+}
+</script>
+
+{% endblock %}
+
+{% block modalstyles %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<style>
+
+</style>
+{% endblock %}

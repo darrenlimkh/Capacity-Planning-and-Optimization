@@ -1,0 +1,67 @@
+{
+	"Con" : {
+		"Server": "",
+		"Database": "",
+		"Driver": "r"
+	},
+
+	"Excel": {
+		"Configurations": {
+			"Path": "",
+			"Product_Specs": {
+				"Sheet_Name": "Product Specs",
+				"Column_Headers": ["Product", "Type", "Number"]
+			},
+			"Operation_Specs": {
+				"Sheet_Name": "Op Specs",
+				"Column_Headers": ["PBG",	"Site",	"Type",	"Operation", "Space Group",	"# Operator/Operation", "# Operation", "SLH Unit",	"SLH", "Space (Sqft)",	"Demand Multiplier"]
+			},
+			"Production_Flow": {
+				"Sheet_Name": "Production Flow",
+				"Column_Headers": ["Product", "Operation", "Type"]
+			}
+		},
+
+		"Quarterly_Capacity": {
+			"Path": "",
+			"Output_Path": "",
+			"Intermediate_Output_Path": "",
+			"Column_Headers": ["PBG", "Site", "Type", "Operation", "SLH", "SLH Unit", "# Operation", "# Operator/Operation", "Quarterly Demand"],
+			"Demand": {
+				"Sheet_Name": "Quarterly Demand"
+			},
+			"Changelog_Products": {
+				"Sheet_Name": "Changelog (Products)"
+			},
+			"Changelog_Operations": {
+				"Sheet_Name": "Changelog (Operations)"
+			}
+		},
+
+		"Bluesky" : {
+			"Path": "",
+			"Demand": {
+				"Sheet_Name": "Bluesky Demand"
+			},
+			"Changelog_Products": {
+				"Sheet_Name": "Changelog (Products)"
+			},
+			"Changelog_Operations": {
+				"Sheet_Name": "Changelog (Operations)"
+			}
+		}
+	},
+
+	"Tableau" : {
+		"my_env": {
+			"server": "",
+			"api_version": "",
+			"username": "",
+			"password": "",
+			"site_name": "",
+			"site_url": ""
+		},
+
+		"mpps": []
+	}
+}

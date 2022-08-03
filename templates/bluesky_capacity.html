@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../static/styles/scrollbar.css">
+		<link rel="stylesheet" href="../static/styles/navbar.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css">
+		<link rel="icon" type="image/x-icon" href="../static/images/favicon.png">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+		<script src=https://unpkg.com/vue@next></script>
+		<title>Bluesky Capacity</title>
+  </head>
+  <body>
+    <div id="loadOverlay" style="background-color:white; position:absolute; top:0px; left:0px; width:100%; height:100%; z-index:2000;"></div>
+    <div id="app">
+      <div class="header">
+        <div class="logo-div">
+          <a href="/">
+            <img src="../static/images/logo.png" alt="">
+          </a>
+        </div>
+        <div class="tabs-div">
+          <div class="dropdown">
+            <a class="tab" href="/quarterly-capacity">Quarterly Capacity</a>
+            <div class="dropdown-content">
+              <a href="/quarterly-demand">Quarterly Demand</a>
+              <a href="/mpp">MPP</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a class="tab" href="/bluesky-capacity">BlueSky Capacity</a>
+            <div class="dropdown-content">
+              <a href="/bluesky-demand">BlueSky Demand</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a class="tab" style="cursor: context-menu;" >Configurations</a>
+            <div class="dropdown-content">
+              <a href="/product-specifications">Product Specifications</a>
+              <a href="/operation-specifications">Operation Specifications</a>
+              <a href="/production-flow">Production Flow</a>
+              <a href="/changelog">Changelog</a>
+            </div>
+          </div>
+          <!-- <div class="dropdown">
+            <a class="tab" href="/upload">Upload</a>
+          </div> -->
+        </div>
+      </div>
+			<div class="main-body">
+        <div class="toggle-bar">
+          <form action="/bluesky-capacity" method="POST" enctype="multipart/form-data" class="toggle-sensit">
+            <div class="sensit-data">
+              <input type="text" placeholder="Cycle Time Reduction (%): {{hyperparams[0]}}" class="sensit-input" name="cycle">
+              <input type="text" placeholder="Back End Loading (%): {{hyperparams[1]}}" class="sensit-input" name="backend">
+              <input type="text" placeholder="Volume Increment (%): {{hyperparams[2]}}" class="sensit-input" name="volume">
+              <input type="text" placeholder="Available Hours: {{hyperparams[3]}}" class="sensit-input" name="hours">
+              <input type="text" placeholder="Available Days: {{hyperparams[4]}}" class="sensit-input" name="days">
+              <input type="submit" class="submit-button" name="submit-button" value="Submit">
+              <input type="submit" class="reset-button" name="reset-button" value="Reset">
+            </div>
+          </form>
+          <form action="/master" method="POST" enctype="multipart/form-data" class="toggle-buttons">
+            <div class="export-data">
+              <a href="../static/data/Capacity (DATE).xlsx" class="export-button" download>Export</a>
+            </div>
+          </form>
+        </div>
+        <div class="bluesky-tabs">
+            <button type="submit" class="tablinks active" onclick="openCity(event, 'base')" id="defaultOpen" name="base">Base</button>
+            <button type="submit" class="tablinks" onclick="openCity(event, 'blue')" name="blue">Blue</button>
+            <button type="submit" class="tablinks" onclick="openCity(event, 'peakblue')" name="peakblue">Peak Blue</button>
+        </div>
+        <div id="base" class="tabcontent">
+          <table id="table-base" class="stripe hover" style="width:98.5%">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>PBG</th>
+                <th>Site</th>
+                <th>Type</th>
+                <th>Space Group</th>
+                <th>Space / Op</th>
+                <th>Num Operation</th>
+                <th>{{year[0]}}</th>
+                <th>{{year[1]}}</th>
+                <th>{{year[2]}}</th>
+                <th>{{year[3]}}</th>
+                <th>{{year[0] + " Op INCR."}}</th>
+                <th>{{year[1] + " Op INCR."}}</th>
+                <th>{{year[2] + " Op INCR."}}</th>
+                <th>{{year[3] + " Op INCR."}}</th>
+                <th>{{year[0] + " Space INCR."}}</th>
+                <th>{{year[1] + " Space INCR."}}</th>
+                <th>{{year[2] + " Space INCR."}}</th>
+                <th>{{year[3] + " Space INCR."}}</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        
+        <div id="blue" class="tabcontent">
+          <table id="table-blue" class="stripe hover" style="width:98.5%">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>PBG</th>
+                <th>Site</th>
+                <th>Type</th>
+                <th>Space Group</th>
+                <th>Space / Op</th>
+                <th>Num Operation</th>
+                <th>{{year[0]}}</th>
+                <th>{{year[1]}}</th>
+                <th>{{year[2]}}</th>
+                <th>{{year[3]}}</th>
+                <th>{{year[0] + " Op INCR."}}</th>
+                <th>{{year[1] + " Op INCR."}}</th>
+                <th>{{year[2] + " Op INCR."}}</th>
+                <th>{{year[3] + " Op INCR."}}</th>
+                <th>{{year[0] + " Space INCR."}}</th>
+                <th>{{year[1] + " Space INCR."}}</th>
+                <th>{{year[2] + " Space INCR."}}</th>
+                <th>{{year[3] + " Space INCR."}}</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        
+        <div id="peakblue" class="tabcontent">
+          <table id="table-peakblue" class="stripe hover" style="width:98.5%">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>PBG</th>
+                <th>Site</th>
+                <th>Type</th>
+                <th>Space Group</th>
+                <th>Space / Op</th>
+                <th>Num Operation</th>
+                <th>{{year[0]}}</th>
+                <th>{{year[1]}}</th>
+                <th>{{year[2]}}</th>
+                <th>{{year[3]}}</th>
+                <th>{{year[0] + " Op INCR."}}</th>
+                <th>{{year[1] + " Op INCR."}}</th>
+                <th>{{year[2] + " Op INCR."}}</th>
+                <th>{{year[3] + " Op INCR."}}</th>
+                <th>{{year[0] + " Space INCR."}}</th>
+                <th>{{year[1] + " Space INCR."}}</th>
+                <th>{{year[2] + " Space INCR."}}</th>
+                <th>{{year[3] + " Space INCR."}}</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+			</div>
+		</div>
+
+		<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+    {% block datatable_blueskyscripts %}{% endblock %}
+    {% block datatable_blueskystyles %}{% endblock %}
+	</body>
+
+<script>
+$(document).ready(function () {
+  var table = $('#table-peakblue').DataTable({
+    info: false,
+    paging: false,
+    stateSave: true,
+    fixedColumns: {
+      heightMatch: 'none'
+    },
+    ajax: '/api/data-peakblue',
+    columns: [
+      {data: 'id', searchable: false},
+      {data: 'pbg', orderable: true, searchable: true},
+      {data: 'site', orderable: true},
+      {data: 'type', orderable: true},
+      {data: 'space_group', orderable: true, searchable: true},
+      {data: 'space_op', orderable: true, searchable: true},
+      {data: 'op_current', orderable: true, searchable: false},
+      {data: 'op_1', orderable: true, searchable: false},
+      {data: 'op_2', orderable: true, searchable: false},
+      {data: 'op_3', orderable: true, searchable: false},
+      {data: 'op_4', seachable: false},
+      {data: 'op_increment_1', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'op_increment_2', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'op_increment_3', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'op_increment_4', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'space_increment_1', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'space_increment_2', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'space_increment_3', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'space_increment_4', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+    ],
+  });
+});
+
+$(document).ready(function () {
+  var table = $('#table-blue').DataTable({
+    info: false,
+    paging: false,
+    stateSave: true,
+    fixedColumns: {
+      heightMatch: 'none'
+    },
+    ajax: '/api/data-blue',
+    columns: [
+      {data: 'id', searchable: false},
+      {data: 'pbg', orderable: true, searchable: true},
+      {data: 'site', orderable: true},
+      {data: 'type', orderable: true},
+      {data: 'space_group', orderable: true, searchable: true},
+      {data: 'space_op', orderable: true, searchable: true},
+      {data: 'op_current', orderable: true, searchable: false},
+      {data: 'op_1', orderable: true, searchable: false},
+      {data: 'op_2', orderable: true, searchable: false},
+      {data: 'op_3', orderable: true, searchable: false},
+      {data: 'op_4', seachable: false},
+      {data: 'op_increment_1', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'op_increment_2', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'op_increment_3', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'op_increment_4', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'space_increment_1', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'space_increment_2', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'space_increment_3', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'space_increment_4', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+    ],
+  });
+});
+
+$(document).ready(function () {
+  var table = $('#table-base').DataTable({
+    info: false,
+    paging: false,
+    stateSave: true,
+    ajax: '/api/data-base',
+    fixedColumns: {
+      heightMatch: 'none'
+    },
+    columns: [
+      {data: 'id', searchable: false},
+      {data: 'pbg', orderable: true, searchable: true},
+      {data: 'site', orderable: true},
+      {data: 'type', orderable: true},
+      {data: 'space_group', orderable: true, searchable: true},
+      {data: 'space_op', orderable: true, searchable: true},
+      {data: 'op_current', orderable: true, searchable: false},
+      {data: 'op_1', orderable: true, searchable: false},
+      {data: 'op_2', orderable: true, searchable: false},
+      {data: 'op_3', orderable: true, searchable: false},
+      {data: 'op_4', seachable: false},
+      {data: 'op_increment_1', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'op_increment_2', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'op_increment_3', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'op_increment_4', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'space_increment_1', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'space_increment_2', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'space_increment_3', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+        {data: 'space_increment_4', seachable: false, render: function(data, type) {
+        var number = $.fn.dataTable.render.number(',', '.', 10, '').display(data);
+        if (type === 'display') {
+              let color = '';
+              if (parseFloat(data) > 0) {
+                color = '#C1E1C1';
+              }
+              else if ((parseFloat(data) < 0)) {
+                color = '#f1b8b8';
+              }
+              return '<span style="background-color:' + color + '">' + data + '</span>';
+          }
+          return data
+        }},
+    ],
+  });
+});
+</script>
+
+<style>
+body {
+  font-family: Roboto, Arial;
+  margin: 0;
+}
+
+#loadOverlay{display: none;}
+
+.bluesky-tabs {
+  position: absolute;
+  margin-top: -5px;
+  margin-left: 15px;
+  margin-bottom: 10px;
+  z-index: 2; 
+}
+
+.bluesky-tabs button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 12px 14px;
+  transition: 0.3s;
+  font-size: 14px;
+  color: black;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.bluesky-tabs button:hover {
+  background-color: #ddd;
+}
+
+.bluesky-tabs button.active {
+  background-color: #ddd;
+}
+
+.tabcontent {
+  display: none;
+}
+
+body {
+  font-family: Roboto, Arial;
+  margin: 0;
+}   
+
+table {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+table td {
+  text-align: center;
+}
+
+table th {
+  background-color: #347da2;
+  color: white;
+  text-align: center;
+  border: none;
+}
+
+table.dataTable thead th, table.dataTable thead td, table.dataTable tfoot th, table.dataTable tfoot td {
+  text-align: center !important;
+}
+
+.dataTables_filter {
+  margin-right: 15px;
+  margin-bottom: 10px;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+  width: 186px;
+}
+
+input[type=search]:focus {
+  border: 1.2px solid #347da2;
+  outline: none;
+}
+
+.export-data {
+  display: flex;
+  justify-content: right;
+}
+
+.export-button, .clear-button, .submit-button, .reset-button, .optimize-button{
+  background-color: white;
+  border-color: #347da2;
+  border-style: solid;
+  border-width: 1px;
+  color: #347da2;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  border-radius: 2px;
+  cursor:pointer;
+  transition: background-color 0.15s, color 0.15s;
+  width: 90px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.export-button {
+  text-decoration: none;
+}
+
+.export-button {
+  margin-right: 15px;
+}
+
+.reset-button {
+  margin-left: 1px;
+}
+
+.export-button:hover, .clear-button:hover, .submit-button:hover, .reset-button:hover, .optimize-button:hover {
+  background-color: #347da2;
+  color: white;
+  text-decoration: none;
+}
+
+.export-button:active, .clear-button:active, .submit-buton:active, .reset-button:active, .optimize-button:active {
+  opacity: 0.7;
+}
+
+.export-button {
+  text-align: center;
+}
+
+.toggle-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sensit-data {
+  margin-left: 15px;
+}
+
+.sensit-input {
+  font-size: 14px;
+  margin-right: 1px;
+  border-color: #347da2;
+  border-style: solid;
+  border-width: 1px;
+  color: black;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  border-radius: 2px;
+  width: 200px;
+}
+</style>
+  
+<script>
+function openCity(evt, tabname) {
+  var i, tabcontent, tablinks;
+  tablinks = document.getElementsByClassName("tablinks");
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabname).style.display = "block";
+  evt.currentTarget.className += " active";
+  info = evt.target.name;
+  const request = new XMLHttpRequest()
+  request.open('POST', `/bluesky/${JSON.stringify(info)}`)
+  request.send();
+}
+
+document.getElementById("defaultOpen").click();
+</script>
+    
+<script>
+var href_year = '{{output_path}}' ;
+console.log(href_year)
+var links = document.getElementsByClassName('export-button');
+Array.from(links).forEach(link => {
+  link.href = link.href.replace('DATE', href_year);
+});
+</script>
+</html>

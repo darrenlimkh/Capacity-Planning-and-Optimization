@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/styles/scrollbar.css">
+  <link rel="stylesheet" href="../static/styles/navbar.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css">
+  <link rel="icon" type="image/x-icon" href="../static/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <script src=https://unpkg.com/vue@next></script>
+  <title>MPP</title>
+</head>
+<body>
+  <div id="loadOverlay" style="background-color:white; position:absolute; top:0px; left:0px; width:100%; height:100%; z-index:2000;"></div>
+  <div id="app">
+    <div class="header">
+      <div class="logo-div">
+        <a href="/">
+          <img src="../static/images/logo.png" alt="">
+        </a>
+      </div>
+      <div class="tabs-div">
+        <div class="dropdown">
+          <a class="tab" href="/quarterly-capacity">Quarterly Capacity</a>
+          <div class="dropdown-content">
+            <a href="/quarterly-demand">Quarterly Demand</a>
+            <a href="/mpp">MPP</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a class="tab" href="/bluesky-capacity">BlueSky Capacity</a>
+          <div class="dropdown-content">
+            <a href="/bluesky-demand">BlueSky Demand</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a class="tab" style="cursor: context-menu;" >Configurations</a>
+          <div class="dropdown-content">
+            <a href="/product-specifications">Product Specifications</a>
+            <a href="/operation-specifications">Operation Specifications</a>
+            <a href="/production-flow">Production Flow</a>
+            <a href="/changelog">Changelog</a>
+          </div>
+        </div>
+        <!-- <div class="dropdown">
+          <a class="tab" href="/upload">Upload</a>
+        </div> -->
+      </div>
+    </div>
+    <div class="main-body">
+        <form action="/mpp" method="POST" enctype="multipart/form-data">
+            <label>Start Date</label>
+            <input type="text" id="fname" name="startdate" placeholder="YEARQUARTER (e.g., 2022Q1)" required>
+        
+            <label>End Date</label>
+            <input type="text" id="lname" name="enddate" placeholder="YEARQUARTER (e.g., 2022Q4)" required>
+            <div class="download-div" style="display:flex;">
+                <input type="submit" name="trawl-button" value="Trawl Tableau MPP Data">
+                <a href="../static/data/mpp.xlsx" download>
+                    <img class="download-icon" src="../static/images/download-icon.png" width="50px" height="50px">
+                </a>
+            </div>
+        </form>
+
+    </div>
+    
+  </div>
+
+</body>
+
+
+<style>
+body {
+    font-family: Roboto, Arial;
+    margin: 0;
+}
+
+.main-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:750px;
+}
+
+#loadOverlay{display: none;}
+
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: white;
+  border-color:#347da2;
+  border-width: 1px;
+  color: #347da2;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+input[type=submit]:hover, .download-button:hover {
+    background-color: #347da2;
+    color: white;
+    text-decoration: none;
+}
+
+.download-button {
+  text-align: center;
+  background-color: white;
+  border-color: #347da2;
+  border-style: solid;
+  border-width: 1px;
+  color: #347da2;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  border-radius: 2px;
+  cursor:pointer;
+  transition: background-color 0.15s, color 0.15s;
+  width: 90px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  margin-top: 100px;
+}
+
+.download-icon {
+    width: 100%;
+    height: 45px;
+    margin-left: 10px;
+    margin-top: 7px;
+}
+</style>
+</html>
