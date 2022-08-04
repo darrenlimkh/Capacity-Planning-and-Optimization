@@ -1,4 +1,4 @@
-# Capacity Planning
+# Manufacturing Capacity Planning
 
 ## Introduction
 The development allows for two analyses: quarterly & bluesky capacity planning.
@@ -16,7 +16,7 @@ The quarterly demand values are declared in 'Capacity Template.xlsx' and based o
 
 5. A seperate tab titled 'MPP' allows for trawling of MPP data from the tableau server. User can input the start & end date, and click on the 'Trawl Tableau MPP Data' to perform the data extraction and processing. Subsequently, user can click on the download icon to attain the required values that can be copied and pasted into an external template.
 
-MPP data is extracted based on: https://tableauprd.amat.com/#/site/Manufacturing/views/MPP_Counts/MPP_Counts?:iid=1
+MPP data is extracted based on:
 
 ### Bluesky Capacity
 The bluesky demand values are declared in 'Capacity Template.xlsx' and based on the operation configurations defined in 'Configurations.xlsx', the required operations to meet 0.91 P2m are computed. The following summarises the features of the tab.
